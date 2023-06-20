@@ -1,7 +1,9 @@
 import random
-
+import traceback 
 import requests
 from flask import Flask, render_template
+from socket import gethostname, gethostbyname
+
 
 app = Flask(__name__)
 
@@ -18,7 +20,14 @@ def home():
 
 @app.route("/get_quote")
 def quote():
-    quote = requests.get("http://gen:5000/quote").text
+    quote = ''
+    for port in ['4999', '5000']:
+        if quote == '':
+            try:
+                quote = requests.get(f"http://localhost:{port}/quote").text
+            except Exception as e:
+                print(traceback.format_exc())
+                pass
     print("quote - ", quote)
 
     return render_template("quote.html", quote=quote)
