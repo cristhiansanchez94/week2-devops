@@ -7,6 +7,8 @@ services:
     deploy:
       mode: replicated
       replicas: 2
+    volumes: 
+      - ./quote_gen:/app
   web2:
     build: ./quote_disp
     expose:
@@ -18,3 +20,6 @@ services:
     deploy:
       mode: replicated
       replicas: 2
+    volumes:
+      - ./quote_disp:/app
+    
