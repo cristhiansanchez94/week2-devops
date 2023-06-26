@@ -21,15 +21,16 @@ def home():
 @app.route("/get_quote")
 def quote():
     quote = ''
-    for port in ['4999', '5000']:
-        if quote == '':
-            try:
-                quote = requests.get(f"http://localhost:{port}/quote").text
-            except Exception as e:
-                print(traceback.format_exc())
+    base_url = 'week2-devops-web1-id'
+    for id in [1,2]:
+        url = base_url.replace('id',str(id))
+        try: 
+            response = requests.get(f"http://{url}:5000/quote")
+            if response.status_code==200:
+                quote = response.text
+                break
+        except Exception as e:
                 pass
-    print("quote - ", quote)
-
     return render_template("quote.html", quote=quote)
 
 
