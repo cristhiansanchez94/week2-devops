@@ -1,7 +1,7 @@
-import random
-
 import requests
 from flask import Flask, render_template
+from socket import gethostname, gethostbyname
+
 
 app = Flask(__name__)
 
@@ -18,9 +18,17 @@ def home():
 
 @app.route("/get_quote")
 def quote():
-    quote = requests.get("http://gen:5000/quote").text
-    print("quote - ", quote)
-
+    quote = ''
+    base_url = 'week2-devops-web1-id'
+    for id in [1,2]:
+        url = base_url.replace('id',str(id))
+        try: 
+            response = requests.get(f"http://{url}:5000/quote")
+            if response.status_code==200:
+                quote = response.text
+                break
+        except Exception as e:
+                pass
     return render_template("quote.html", quote=quote)
 
 

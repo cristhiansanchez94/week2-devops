@@ -2,15 +2,24 @@ version: "3.7"
 services:
   web1:
     build: ./quote_gen
-    container_name: gen 
-    ports: 
-      - "5000:5000"
-  web2: 
+    ports:
+      - "4999-5000:5000"
+    deploy:
+      mode: replicated
+      replicas: 2
+    volumes: 
+      - ./quote_gen:/app
+  web2:
     build: ./quote_disp
-    container_name: disp
     expose:
       - "5000"
     ports:
-      - "5001:5001"
+      - "4055-5001:5001"
     depends_on:
       - web1
+    deploy:
+      mode: replicated
+      replicas: 2
+    volumes:
+      - ./quote_disp:/app
+    
