@@ -1,5 +1,3 @@
-import random
-import traceback 
 import requests
 from flask import Flask, render_template
 from socket import gethostname, gethostbyname
